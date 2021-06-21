@@ -132,7 +132,7 @@ def print_help_text():
     [bold]add[/]\t\t\tAdd a task to your todo-list
     [bold]check[/]\t\t\tCheck a task, mark it as done
     [bold]uncheck[/]\t\t\tUncheck a task, unmark it as done
-    [bold]list [todo | done][/]\t\t\tList the content of a task list
+    [bold]list (todo | done)[/]\t\t\tList the content of a task list
     [bold]print[/]\t\t\t[italic]-> same as [/italic][bold]list[/bold]
   
   Flags
@@ -142,13 +142,13 @@ def print_help_text():
 def arg_parse(args: list):
   if "--help" in args:
     print_help_text()
-  elif "add" in args[0]:
+  elif "add" in args:
     add_task(args[1], task_list=tasks_todo, tasks_to_write=tasks)
-  elif "check" in args[0]:
+  elif "check" in args:
     check_task(args[1], task_list_todo=tasks_todo, task_list_done=tasks_done, tasks_to_write=tasks)
-  elif "uncheck" in args[0]:
+  elif "uncheck" in args:
     uncheck_task(args[1], task_list_todo=tasks_todo, task_list_done=tasks_done, tasks_to_write=tasks)
-  elif "list" or "print" in args[0]:
+  elif "list" in args or "print" in args:
     try:
       if args[1]:
         if args[1] == "todo":

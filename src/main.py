@@ -58,9 +58,11 @@ def print_tasks(*task_lists, task_list_done=False, print_title=""):
     # the Parameters are later stored in a tuple
     # So we need to loop through the touple to access the different task_lists passed.
     # Looping through the created tuple to access the dictionaries ↑↑↑
-    if task_list == {}:
+    if task_list == {} and not task_list_done:
       console.print("[bold green]All done! :grinning:[/]")
       break
+    elif task_list == {} and task_list_done:
+      console.print("[bold]No tasks that were checked![/]")
 
     for id, task in task_list.items():
       # Looping through the id and task of task_list.items(), more about this method can be found here https://docs.python.org/3/tutorial/datastructures.html?highlight=dictionaries#looping-techniques

@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from rich.console import Console
 from rich.prompt import Prompt
+from rich.columns import Columns
 import json
 from sys import argv
 
@@ -52,7 +53,7 @@ def noice(msg_string: str, msg_type: str) -> str:
     return msg_string
 
 
-def print_tasks(*task_lists, task_list_done=False, print_title=""):
+def print_tasks(*task_lists, task_list_done:bool=False, print_title=""):
     if print_title != "":
         console.print(print_title + ":", style="bold italic")
 
@@ -80,7 +81,7 @@ def print_tasks(*task_lists, task_list_done=False, print_title=""):
 
 def add_task(task: str, task_list: dict, tasks_to_write: dict):
     # making an empty list, keys
-    if not task_list["1"]:
+    if len(task_list) > 1:
         keys = []
         for key in task_list.keys():
             # sorting the tasks_todo keys so that we can the biggest key and add +1 to it.
@@ -90,7 +91,7 @@ def add_task(task: str, task_list: dict, tasks_to_write: dict):
 
         task_list[str(keys[-1] + 1)] = task
     else:
-        task_list["1"] = task
+        task_list["1"] =task
 
     # Opening the file to write the task file.
     with open(PATH_TASK_FILE, "w") as tasks_file:
@@ -134,23 +135,22 @@ def uncheck_task(task_id: str, task_list_todo: dict, task_list_done: dict, tasks
 
 def print_help_text():
     console.print("""\
-  pydo: Tasks in your cute little Terminal
+    pydo: Tasks in your cute little Terminal
 
-  Usage
-    $ pydo [<option> ...]
-  
-  Options
-    [bold]add[/]\t\t\tAdd a task to your todo-list
-    [bold]check[/]\t\t\tCheck a task, mark it as done
-    [bold]uncheck[/]\t\t\tUncheck a task, unmark it as done
-    [bold]list (todo | done)[/]\t\t\tList the content of a task list
-    [bold]print[/]\t\t\t[italic]-> same as [/italic][bold]list[/bold]
-  
-  Flags
-    [bold]--help[/]\t\t\tPrint this help message
-  """)
-
-
+    Usage
+        $ pydo [<option> ...]
+    
+    Options
+        [bold]add[/]\t\t\tAdd a task to your todo-list
+        [bold]check[/]\t\t\tCheck a task, mark it as done
+        [bold]uncheck[/]\t\t\tUncheck a task, unmark it as done
+        [bold]list (todo | done)[/]\tList the content of a task list
+        [bold]print[/]\t\t\t[italic]-> same as [/italic][bold]list[/bold]
+    
+    Flags
+        [bold]--help[/]\t\t\tPrint this help message
+    """)
+    
 def arg_parse(args: list):
     if "--help" in args:
         print_help_text()
@@ -163,21 +163,23 @@ def arg_parse(args: list):
         uncheck_task(args[1], task_list_todo=tasks_todo,
                      task_list_done=tasks_done, tasks_to_write=tasks)
     elif "list" in args or "print" in args:
-        try:
-            if args[1]:
-                if args[1] == "todo":
-                    print_tasks(tasks_todo, task_list_done=False,
-                                print_title="Todos")
-                elif args[1] == "done":
-                    print_tasks(tasks_done, task_list_done=True,
-                                print_title="Done")
-        except IndexError:
-            noice("No list specified!\n\tDefaulting to your todos.", "w")
-            print_tasks(tasks_todo, task_list_done=tasks_done,
+        if len(args) >= 1:
+            if len(args) >= 2 and args[1] == "todo":
+                print_tasks(tasks_todo, task_list_done=False,
+                            print_title="Todos")
+            elif len(args) >= 2 and args[1] == "done":
+                print_tasks(tasks_done, task_list_done=True,
+                            print_title="Done")
+            else:
+                noice("No list specified!\n\tDefaulting to your todos.", "w")
+                print_tasks(tasks_todo, task_list_done=False,
                         print_title="Todos")
     else:
-        noice("No Arguments were given!\n\tPrinting help text!", "w")
-        print_help_text()
-
+        if len(args) == 0:
+            noice("No Arguments were given!\n\tPrinting help text!", "w")
+            print_help_text()
+        elif len(args) > 0:
+            noice("Invalid Arguments were given!", "w")
+            print_help_text()
 
 arg_parse(argv[1:])

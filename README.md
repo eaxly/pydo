@@ -1,4 +1,4 @@
-# PYdo
+# Pydo: tasks in your cute little Terminal
 
 Small to do list application for your Terminal (Work In Progress)
 

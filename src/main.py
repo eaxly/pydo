@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Maintained: Yes.
+# by: ExtinctAxolotl
 
 import os
 from pathlib import Path

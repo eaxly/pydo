@@ -18,3 +18,6 @@ Before you get lost and rip your hair out, here are some tips on how to use this
 - Install the dependencies
   - Install the requirements with either pipenv (by running `pipenv install`, *recommended*)
   - or you can use standard pip in a virtualenv (run `pip3 -r requirements.txt` in the root folder of this project.)
+
+# License
+This project is licensed under the [MPL-2.0](https://choosealicense.com/licenses/mpl-2.0/) license.

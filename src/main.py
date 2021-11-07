@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Maintained: Yes.
+# Maintained: Maybe.
 # by: ExtinctAxolotl
 
 import os
